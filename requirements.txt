@@ -1,0 +1,8 @@
+httpx
+pytest
+black
+isort
+mypy
+fastapi
+uvicorn
+python-multipart
