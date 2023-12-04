@@ -5,11 +5,10 @@ FROM python:3.10.12-slim-bullseye as base
 ARG PROJECT=api
 
 # Create a non-root user to run the app with.
-RUN groupadd --gid 1000 user &&  adduser --disabled-password --gecos '' --uid 1000 --gid 1000 user
+RUN groupadd --gid 1000 user && adduser --disabled-password --gecos '' --uid 1000 --gid 1000 user
 
 # Set the working directory for the subsequent commands.
 WORKDIR /home/user
-
 
 # Switch to the non-root user for security purposes.
 USER user
@@ -24,16 +23,16 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 USER user
 # Copy the project files into the container.
-COPY --chown=user:user . ./
+COPY --chown=user:user ./$PROJECT /home/user/$PROJECT
 # Define the command to run when the container starts.
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
 
 # Create a new stage named 'test' based on the 'base' stage.
 FROM base as test
 
 # Copy the requirements.txt file and install the Python dependencies.
-COPY --chown=user:user /api/requirements-test.txt ./
-RUN pip install --no-cache-dir -r requirements-test.txt
+COPY --chown=user:user ./requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 USER root
 # Copy the project files into the container.
