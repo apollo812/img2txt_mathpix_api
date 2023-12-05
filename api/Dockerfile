@@ -21,11 +21,17 @@ USER root
 COPY --chown=user:user ./requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-USER user
 # Copy the project files into the container.
 COPY --chown=user:user ./$PROJECT /home/user/$PROJECT
+
+# Copy the .env file into the container.
+COPY --chown=user:user .env /home/user/.env
+
+# Switch back to the non-root user
+USER user
+
 # Define the command to run when the container starts.
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
+CMD ["python", "-m", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload", "--env-file", "/home/user/.env"]
 
 # Create a new stage named 'test' based on the 'base' stage.
 FROM base as test
