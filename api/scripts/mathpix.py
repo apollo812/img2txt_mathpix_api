@@ -23,7 +23,7 @@ default_headers = {
     'Content-type': 'application/json'
 }
 
-service = 'https://api.mathpix.com/v3/latex'
+service = 'https://api.mathpix.com/v3/text'
 
 #
 # Return the base64 encoding of an image with the given filename.
@@ -36,7 +36,7 @@ def image_uri(filename):
 # Return the base64 encoding of an image with the content.
 #
 def image_content(contents):
-    encoded_string = base64.b64encode(contents).decode('utf-8')
+    encoded_string = base64.b64encode(contents).decode()
     return f"data:image/jpg;base64,{encoded_string}"
 
 #
