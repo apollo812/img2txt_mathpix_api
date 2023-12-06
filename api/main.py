@@ -50,3 +50,23 @@ async def i2t(file: UploadFile = File(...)):
     # assert(r['latex_simplified'] == '12 + 5 x - 8 = 12 x - 10')
 
     return {"result": json.dumps(r, indent=4, sort_keys=True)}
+
+@app.post("/img2txt_url", status_code=HTTP_201_CREATED)
+async def i2t(url: str):
+    r = mathpix.latex({
+        'src': url,
+        'ocr': ['math', 'text'],
+        'formats': ['text', 'latex_styled', 'asciimath', 'mathml', 'latex_simplified'],
+        'format_options': {
+            'text': {
+                'transforms': ['rm_spaces', 'rm_newlines'],
+                'math_delims': ['$', '$']
+            },
+            'latex_styled': {'transforms': ['rm_spaces']}
+        }
+    })
+
+    print(json.dumps(r, indent=4, sort_keys=True))
+    # assert(r['latex_simplified'] == '12 + 5 x - 8 = 12 x - 10')
+
+    return {"result": json.dumps(r, indent=4, sort_keys=True)}
