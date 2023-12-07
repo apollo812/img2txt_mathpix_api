@@ -4,10 +4,13 @@ import sys
 import time
 import requests
 import json
+from dotenv import load_dotenv
 
 #
 # Batch request example in Python.
 #
+
+load_dotenv()
 
 # get api_key from dashboard.mathpix.com or contact support@mathpix.com if you're in China
 server = os.environ.get('MATHPIX_API', 'https://api.mathpix.com')

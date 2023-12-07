@@ -4,6 +4,7 @@ import os
 import base64
 import requests
 import json
+from dotenv import load_dotenv
 
 #
 # Common module for calling Mathpix OCR service from Python.
@@ -12,6 +13,8 @@ import json
 # either once via setenv or on the command line as in
 # APP_ID=my-id APP_KEY=my-key python3 simple.py 
 #
+
+load_dotenv()
 
 env = os.environ
 app = env['MATHPIX_APP_ID']
