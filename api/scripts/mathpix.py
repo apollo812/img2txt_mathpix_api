@@ -26,6 +26,7 @@ default_headers = {
 }
 
 service = 'https://api.mathpix.com/v3/text'
+service_pdf = 'https://api.mathpix.com/v3/pdf'
 
 #
 # Return the base64 encoding of an image with the given filename.
@@ -46,5 +47,13 @@ def image_content(contents):
 #
 def latex(args, headers=default_headers, timeout=30):
     r = requests.post(service,
+        data=json.dumps(args), headers=headers, timeout=timeout)
+    return json.loads(r.text)
+
+#
+# Call the Mathpix service with the given arguments, headers, and timeout.
+#
+def pdf(args, headers=default_headers, timeout=30):
+    r = requests.post(service_pdf,
         data=json.dumps(args), headers=headers, timeout=timeout)
     return json.loads(r.text)

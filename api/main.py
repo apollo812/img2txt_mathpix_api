@@ -52,7 +52,7 @@ async def i2t(file: UploadFile = File(...)):
     return {"result": json.dumps(r, indent=4, sort_keys=True)}
 
 @app.post("/img2txt_url", status_code=HTTP_201_CREATED)
-async def i2t(image_path: str):
+async def i2t_url(image_path: str):
     r = mathpix.latex({
         'src': image_path,
         'ocr': ['math', 'text'],
@@ -68,5 +68,28 @@ async def i2t(image_path: str):
 
     print(json.dumps(r, indent=4, sort_keys=True))
     # assert(r['latex_simplified'] == '12 + 5 x - 8 = 12 x - 10')
+
+    return {"result": json.dumps(r, indent=4, sort_keys=True)}
+
+@app.post("/pdf2txt_url", status_code=HTTP_201_CREATED)
+async def p2t_url(pdf_path: str):
+    r = mathpix.pdf({
+        'url': pdf_path,
+        "conversion_formats": {
+            "docx": True,
+            "tex.zip": True
+        }
+    })
+
+    # r = json.dumps(r, indent=4, sort_keys=True)
+    # print("dddd", r)
+    # print(r.pdf_id)
+    # assert(r['latex_simplified'] == '12 + 5 x - 8 = 12 x - 10')
+
+    # get mmd response
+    # url = "https://api.mathpix.com/v3/pdf/" + r.pdf_id + ".mmd"
+    # response = requests.get(url, headers=headers)
+    # with open(pdf_id + ".mmd", "w") as f:
+    #     f.write(response.text)
 
     return {"result": json.dumps(r, indent=4, sort_keys=True)}
