@@ -16,9 +16,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-env = os.environ
-app = env['MATHPIX_APP_ID']
-key = env['MATHPIX_APP_KEY']
+app = os.getenv('MATHPIX_APP_ID')
+key = os.getenv('MATHPIX_APP_KEY')
 
 default_headers = {
     'app_id': app,
