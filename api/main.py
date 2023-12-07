@@ -52,9 +52,9 @@ async def i2t(file: UploadFile = File(...)):
     return {"result": json.dumps(r, indent=4, sort_keys=True)}
 
 @app.post("/img2txt_url", status_code=HTTP_201_CREATED)
-async def i2t(url: str):
+async def i2t(image_path: str):
     r = mathpix.latex({
-        'src': url,
+        'src': image_path,
         'ocr': ['math', 'text'],
         'formats': ['text', 'latex_styled', 'asciimath', 'mathml', 'latex_simplified'],
         'format_options': {
